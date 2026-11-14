@@ -63,13 +63,17 @@ namespace MaterialLib
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used by JSON serialization.")]
         private string AlphaBlendModeString
         {
-            // The game turns blending on for any eAlphaBlendMode string except "None", so a blend-off material
-            // (Unknown, i.e. 0/6/7) has to be written as "None" or it renders fully blended in game.
-            get { return AlphaBlendMode == AlphaBlendModeType.Unknown ? nameof(AlphaBlendModeType.None) : AlphaBlendMode.ToString(); }
+            get { return AlphaBlendModeName(AlphaBlendMode); }
             set
             {
                 AlphaBlendMode = Enum.TryParse(value, true, out AlphaBlendModeType mode) ? mode : AlphaBlendModeType.None;
             }
+        }
+
+        // The game blends on any name but "None"; Unknown (0/6/7) is blend off
+        internal static string AlphaBlendModeName(AlphaBlendModeType mode)
+        {
+            return mode == AlphaBlendModeType.Unknown ? nameof(AlphaBlendModeType.None) : mode.ToString();
         }
 
         [DataMember(Name = "fAlphaTestRef")]

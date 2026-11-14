@@ -683,8 +683,7 @@ namespace MaterialLib
 
             output.Write(GrayscaleToPaletteScale);
 
-            // A version 100 file is read back as a version 2 body, so a version 0 material with a TruePBR section
-            // still needs this byte or the first block would be read one byte early.
+            // Version 100 is read back as a version 2 body, which has this byte
             if (Version >= 1 || TruePBR != null)
             {
                 output.Write(SkewSpecularAlpha);

@@ -63,7 +63,7 @@ namespace MaterialLib
         [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "Used by JSON serialization.")]
         private string AlphaBlendModeString
         {
-            get { return AlphaBlendMode.ToString(); }
+            get { return BaseMaterialFile.AlphaBlendModeName(AlphaBlendMode); }
             set
             {
                 AlphaBlendMode = Enum.TryParse(value, true, out BaseMaterialFile.AlphaBlendModeType mode) ? mode : BaseMaterialFile.AlphaBlendModeType.None;

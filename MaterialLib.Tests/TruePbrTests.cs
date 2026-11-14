@@ -94,6 +94,27 @@ namespace MaterialLib.Tests
         }
 
         [Fact]
+        public void Version0_WithSection_ReadsBack()
+        {
+            var material = PbrMaterial();
+            material.Version = 0;
+
+            var loaded = Deserialize(Serialize(material));
+            Assert.Equal(SectionBytes(material.TruePBR!), SectionBytes(loaded.TruePBR!));
+        }
+
+        [Fact]
+        public void Json_WritesBlendOffAsNone()
+        {
+            using var stream = new MemoryStream();
+            new DataContractJsonSerializer(typeof(BGSM)).WriteObject(stream, new BGSM { TruePBR = new TruePbrSection() });
+            var json = Encoding.UTF8.GetString(stream.ToArray());
+
+            Assert.Contains("\"eAlphaBlendMode\":\"None\"", json);
+            Assert.DoesNotContain("\"Unknown\"", json);
+        }
+
+        [Fact]
         public void Version100_BodyIsPlainVersion2()
         {
             var material = PbrMaterial();
